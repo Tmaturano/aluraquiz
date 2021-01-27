@@ -9,6 +9,8 @@ import Footer from '../src/components/Footer';
 import GitHubCorner from '../src/components/GitHubCorner';
 import QuizBackground from '../src/components/QuizBackground';
 import QuizLogo from '../src/components/QuizLogo';
+import Input from '../src/components/Input';
+import Button from '../src/components/Button';
 
 const QuizContainer = styled.div`
   width: 100%;
@@ -28,37 +30,39 @@ export default function Home() {
   return (
     <QuizBackground backgroundImage={db.bg}>
       <Head>
-        <title>Alura Quiz</title>
+        <title>{db.title}</title>
       </Head>
-      <QuizLogo />
       <QuizContainer>
+        <QuizLogo />
         <Widget>
           <Widget.Header>
-            <h1>CSS</h1>
+            <h1>{db.title}</h1>
           </Widget.Header>
           <Widget.Content>
-            <form onSubmit={function (event) {
-              event.preventDefault();
+            <p>{db.description}</p>
+            <form onSubmit={function (infosDoEvento) {
+              infosDoEvento.preventDefault();
               router.push(`/quiz?name=${name}`);
+              console.log('Fazendo uma submissão por meio do react');
             }}
             >
-              <input
-                placeholder="Type your name"
-                onChange={function (info) {
-                  setName(info.target.value);
-                }}
+              <Input
+                name="nomeDoUsuario"
+                onChange={(infosDoEvento) => setName(infosDoEvento.target.value)}
+                placeholder="Diz ai seu nome"
                 value={name}
               />
-              <button type="submit" disabled={name === ''}>
-                Play
-                {name}
-              </button>
+              <Button type="submit" disabled={name.length === 0}>
+                {`Jogar ${name}`}
+              </Button>
             </form>
           </Widget.Content>
         </Widget>
+
         <Widget>
           <Widget.Content>
-            <h1>Question 1</h1>
+            <h1>Quizes da Galera</h1>
+
             <p>lorem ipsum dolor sit amet...</p>
           </Widget.Content>
         </Widget>
