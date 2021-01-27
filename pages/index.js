@@ -1,5 +1,8 @@
-import styled from 'styled-components'
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+
 import db from '../db.json';
 import Widget from '../src/components/Widget';
 import Footer from '../src/components/Footer';
@@ -19,29 +22,13 @@ const QuizContainer = styled.div`
 `;
 
 export default function Home() {
+  const router = useRouter();
+  const [name, setName] = useState('');
+
   return (
-    <QuizBackground backgroundImage={db.bg}> 
+    <QuizBackground backgroundImage={db.bg}>
       <Head>
         <title>Alura Quiz</title>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        
-        <meta name="title" content="Alura Quiz" />
-        <meta name="description" content="Check your knowledge with some CSS questions" />
-
-        
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://aluraquiz.tmaturano.vercel.app/" />
-        <meta property="og:title" content="Alura Quiz" />
-        <meta property="og:description" content="Check your knowledge with some CSS questions" />
-        <meta property="og:image" content="" />
-
-        
-        <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://aluraquiz.tmaturano.vercel.app/" />
-        <meta property="twitter:title" content="Alura Quiz" />
-        <meta property="twitter:description" content="Check your knowledge with some CSS questions" />
-        <meta property="twitter:image" content="" />
-
       </Head>
       <QuizLogo />
       <QuizContainer>
@@ -50,18 +37,34 @@ export default function Home() {
             <h1>CSS</h1>
           </Widget.Header>
           <Widget.Content>
-            <p>lorem ipsum dolor sit amet...</p>
+            <form onSubmit={function (event) {
+              event.preventDefault();
+              router.push(`/quiz?name=${name}`);
+            }}
+            >
+              <input
+                placeholder="Type your name"
+                onChange={function (info) {
+                  setName(info.target.value);
+                }}
+                value={name}
+              />
+              <button type="submit" disabled={name === ''}>
+                Play
+                {name}
+              </button>
+            </form>
           </Widget.Content>
-        </Widget> 
-        <Widget>          
+        </Widget>
+        <Widget>
           <Widget.Content>
-            <h1>Question 1</h1> 
+            <h1>Question 1</h1>
             <p>lorem ipsum dolor sit amet...</p>
           </Widget.Content>
         </Widget>
         <Footer />
       </QuizContainer>
-      <GitHubCorner projectUrl="https://github.com/tmaturano"/>
+      <GitHubCorner projectUrl="https://github.com/tmaturano" />
     </QuizBackground>
   );
 }
