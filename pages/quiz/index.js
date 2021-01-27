@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useEffect } from 'react';
 import db from '../../db.json';
 import Widget from '../../src/components/Widget';
 import QuizLogo from '../../src/components/QuizLogo';
@@ -102,16 +102,11 @@ export default function QuizPage() {
   const questionIndex = currentQuestion;
   const question = db.questions[questionIndex];
 
-  // [React chama de: Efeitos || Effects]
-  // React.useEffect
-  // atualizado === willUpdate
-  // morre === willUnmount
-  React.useEffect(() => {
+  useEffect(() => {
     // fetch() ...
     setTimeout(() => {
       setScreenState(screenStates.QUIZ);
     }, 1 * 1000);
-  // nasce === didMount
   }, []);
 
   function handleSubmitQuiz() {
